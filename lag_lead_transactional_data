@@ -1,0 +1,14 @@
+SELECT
+  user_id,
+  transaction_date,
+  transaction_amount,
+  LAG(transaction_amount) OVER (
+    PARTITION BY user_id 
+    ORDER BY transaction_date
+  ) AS previous_amount,
+  LEAD(transaction_amount) OVER (
+    PARTITION BY user_id 
+    ORDER BY transaction_date
+  ) AS next_amount
+FROM transactions
+WHERE transaction_date BETWEEN '2025-01-01' AND '2025-12-31'
