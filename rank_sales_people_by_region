@@ -1,0 +1,11 @@
+SELECT
+  region,
+  salesperson_id,
+  SUM(sales_amount) AS total_sales,
+  RANK() OVER (
+    PARTITION BY region 
+    ORDER BY SUM(sales_amount) DESC
+  ) AS region_rank
+FROM sales
+WHERE sale_date >= '2025-01-01'
+GROUP BY region, salesperson_id
